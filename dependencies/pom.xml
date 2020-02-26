@@ -3,32 +3,37 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openehealth.ipf</groupId>
     <artifactId>ipf-dependencies</artifactId>
-    <version>3.7-SNAPSHOT</version>
+    <version>4.0-SNAPSHOT</version>
     <name>ipf-dependencies</name>
     <packaging>pom</packaging>
 
     <properties>
         <gpg-plugin-version>1.6</gpg-plugin-version>
         <brave-version>5.9.2</brave-version>
-        <camel-version>2.25.0</camel-version>
-        <cxf-version>3.3.4</cxf-version>
-        <groovy-version>2.5.9</groovy-version>
+        <camel-version>3.0.1</camel-version>
+        <cxf-version>3.3.5</cxf-version>
+        <groovy-version>3.0.0</groovy-version>
         <hapi-version>2.3</hapi-version>
         <hapi-fhir-version>4.2.0</hapi-fhir-version>
         <herasaf-version>1.0.4.RELEASE</herasaf-version>
         <ipf-gazelle-version>1.4.0</ipf-gazelle-version>
         <ipf-oht-mdht-version>1.2.0.201212201425</ipf-oht-mdht-version>
         <oht-mdht-cda-version>1.6.0-201807</oht-mdht-cda-version>
-        <jaxb-version>2.3.0</jaxb-version>
+        <jaxb-version>2.3.2</jaxb-version>
+        <jakarta-validation-version>2.0.1</jakarta-validation-version>
+        <jakarta-annotation-version>1.3.4</jakarta-annotation-version>
+        <jakarta-jwsapi-version>1.1.1</jakarta-jwsapi-version>
+        <jakarta-xml-wsapi-version>2.3.2</jakarta-xml-wsapi-version>
+        <jaxws-api-version>2.3.0</jaxws-api-version>
         <jdom-version>2.0.6</jdom-version>
-        <mina2-version>2.0.21</mina2-version>
+        <mina-version>2.0.21</mina-version>
         <ph-schematron-version>5.2.0</ph-schematron-version>
         <ph-commons-version>9.3.8</ph-commons-version>
 
         <saxon-he-version>9.9.1-1</saxon-he-version>
         <slf4j-version>1.7.30</slf4j-version>
-        <spring-version>5.1.12.RELEASE</spring-version>
-        <spring-boot-version>2.1.11.RELEASE</spring-boot-version>
+        <spring-version>5.2.3.RELEASE</spring-version>
+        <spring-boot-version>2.2.4.RELEASE</spring-boot-version>
         <vertx-version>3.8.4</vertx-version>
         <vibur-version>22.2</vibur-version>
         <xmlsec-version>2.1.4</xmlsec-version>
@@ -39,6 +44,7 @@
         <site.url>http://oehf.github.io/ipf</site.url>
         <site.deploy.id>gh-pages</site.deploy.id>
         <site.deploy.url>scm:git:git@github.com:oehf/ipf.git</site.deploy.url>
+
     </properties>
 
     <url>${site.url}</url>
@@ -149,6 +155,12 @@
                 <groupId>org.herasaf.xacml.core</groupId>
                 <artifactId>herasaf-xacml-core</artifactId>
                 <version>${herasaf-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.jdom</groupId>
@@ -172,10 +184,38 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.camel</groupId>
-                <artifactId>camel-core</artifactId>
+                <artifactId>camel-core-engine</artifactId>
                 <version>${camel-version}</version>
-                <scope>test</scope>
-                <type>test-jar</type>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-support</artifactId>
+                <version>${camel-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-management</artifactId>
+                <version>${camel-version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.sun.xml.bind</groupId>
@@ -227,7 +267,7 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.camel</groupId>
-                <artifactId>camel-hl7</artifactId>
+                <artifactId>camel-direct</artifactId>
                 <version>${camel-version}</version>
                 <exclusions>
                     <exclusion>
@@ -242,6 +282,21 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.camel</groupId>
+                <artifactId>camel-hl7</artifactId>
+                <version>${camel-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel.springboot</groupId>
                 <artifactId>camel-hl7-starter</artifactId>
                 <version>${camel-version}</version>
                 <exclusions>
@@ -271,7 +326,7 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>org.apache.camel</groupId>
+                <groupId>org.apache.camel.springboot</groupId>
                 <artifactId>camel-http-common-starter</artifactId>
                 <version>${camel-version}</version>
                 <exclusions>
@@ -287,7 +342,30 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.camel</groupId>
-                <artifactId>camel-http4</artifactId>
+                <artifactId>camel-http</artifactId>
+                <version>${camel-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>commons-codec</groupId>
+                        <artifactId>commons-codec</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel.springboot</groupId>
+                <artifactId>camel-http-starter</artifactId>
                 <version>${camel-version}</version>
                 <exclusions>
                     <exclusion>
@@ -310,30 +388,7 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.camel</groupId>
-                <artifactId>camel-http4-starter</artifactId>
-                <version>${camel-version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.sun.xml.bind</groupId>
-                        <artifactId>jaxb-impl</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.sun.xml.bind</groupId>
-                        <artifactId>jaxb-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>commons-codec</groupId>
-                        <artifactId>commons-codec</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.camel</groupId>
-                <artifactId>camel-mina2</artifactId>
+                <artifactId>camel-mina</artifactId>
                 <version>${camel-version}</version>
                 <exclusions>
                     <exclusion>
@@ -347,8 +402,8 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>org.apache.camel</groupId>
-                <artifactId>camel-mina2-starter</artifactId>
+                <groupId>org.apache.camel.springboot</groupId>
+                <artifactId>camel-mina-starter</artifactId>
                 <version>${camel-version}</version>
                 <exclusions>
                     <exclusion>
@@ -397,6 +452,21 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.camel</groupId>
+                <artifactId>camel-file</artifactId>
+                <version>${camel-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel.springboot</groupId>
                 <artifactId>camel-servlet-starter</artifactId>
                 <version>${camel-version}</version>
                 <exclusions>
@@ -411,9 +481,52 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>org.apache.camel</groupId>
+                <groupId>org.apache.camel.springboot</groupId>
                 <artifactId>camel-spring-boot-starter</artifactId>
                 <version>${camel-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-core</artifactId>
+                <version>${camel-version}</version>
+                <scope>test</scope>
+                <type>test-jar</type>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-mock</artifactId>
+                <version>${camel-version}</version>
+                <scope>test</scope>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-impl</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.sun.xml.bind</groupId>
+                        <artifactId>jaxb-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>io.zipkin.brave</groupId>
@@ -453,14 +566,6 @@
                     <exclusion>
                         <groupId>asm</groupId>
                         <artifactId>asm</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.sun.xml.bind</groupId>
-                        <artifactId>jaxb-core</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.sun.xml.bind</groupId>
-                        <artifactId>jaxb-impl</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -570,7 +675,7 @@
             <dependency>
                 <groupId>org.apache.mina</groupId>
                 <artifactId>mina-core</artifactId>
-                <version>${mina2-version}</version>
+                <version>${mina-version}</version>
             </dependency>
             <dependency>
                 <groupId>net.sf.saxon</groupId>
@@ -587,6 +692,17 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
+                <version>${spring-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>commons-logging</groupId>
+                        <artifactId>commons-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
                 <version>${spring-version}</version>
                 <exclusions>
                     <exclusion>
@@ -664,9 +780,35 @@
                 <version>${jaxb-version}</version>
             </dependency>
             <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${jakarta-validation-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta.annotation-api</artifactId>
+                <version>${jakarta-annotation-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.jws</groupId>
+                <artifactId>jakarta.jws-api</artifactId>
+                <version>${jakarta-jwsapi-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.xml.ws</groupId>
+                <artifactId>jakarta.xml.ws-api</artifactId>
+                <version>${jakarta-xml-wsapi-version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.helger</groupId>
                 <artifactId>ph-schematron</artifactId>
                 <version>${ph-schematron-version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.glassfish.jaxb</groupId>
+                        <artifactId>jaxb-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>com.helger</groupId>
