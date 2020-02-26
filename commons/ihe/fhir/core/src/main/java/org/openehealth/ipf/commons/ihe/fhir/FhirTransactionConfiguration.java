@@ -133,6 +133,9 @@ public class FhirTransactionConfiguration<T extends FhirAuditDataset> extends Tr
     public FhirContext initializeFhirContext() {
         FhirContext fhirContext = fhirContextProvider.get();
         fhirContext.setRestfulClientFactory(new SslAwareApacheRestfulClientFactory(fhirContext));
+        if (deferModelScanning) {
+            fhirContext.setPerformanceOptions(PerformanceOptionsEnum.DEFERRED_MODEL_SCANNING);
+        }
         return fhirContext;
     }
 
